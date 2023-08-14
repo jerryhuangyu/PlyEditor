@@ -99,6 +99,12 @@ class PLYProcessor:
         if file_path:
             return file_path
         return None
+    
+    def get_dir_path(self):
+        folder_path = filedialog.askdirectory(title="Select a folder")
+        if folder_path:
+            return folder_path
+        return None
 
     def convert_to_left_handed(self, pcd: o3d.geometry.PointCloud):
         points = np.asarray(copy.deepcopy(pcd.points))
@@ -114,10 +120,10 @@ class PLYProcessor:
     def save_result_file(self, pcd):
         if not os.path.exists("./results"):
             os.makedirs("./results")
-        o3d.io.write_point_cloud("./results/left_handed.ply", pcd)
+        folder_path = self.get_dir_path()
+        o3d.io.write_point_cloud(folder_path + "/left_handed.ply", pcd)
 
 if __name__ == '__main__':
     root = TkinterDnD.Tk()
     ply_processor = PLYProcessor(root)
     root.mainloop()
-    print()
